@@ -1,4 +1,6 @@
 # Week I
+## Union-Find
+
 Explore the union-find, for solving dynamic connectivity problem.
 
 General problem solving involves:
@@ -62,3 +64,42 @@ Can be further improved (e.g. Ackerman function) but proven that linear time is 
  are union'd, and we can introduce single 'virtual' sites at the top and bottom (connected to those rows 
  respectively), from which we can test if connected.
  
+
+
+
+## Analysis of Algorithms
+We can determine running time as a function of input length from empirical experimentation. Measuring time taking for several 
+input sizes (increasing e.g. by a constant factor each time), we can plot T vs N and use linear regression to model:
+
+T(N) = a * N^b
+
+For the case of doubling N each time, the ratio between subsequent time counts = 2^b
+
+Functional forms may have lower order terms, but for large N we can ignore this as their contribution becomes negligible.
+### Order-of-growth
+Can describe order well enough with small set of functions:
+
+
+Order-of-Growth | Name
+--- |---
+1 | constant
+log(N) | logarithmic
+N | linear
+N log(N) | linearithmic
+N^2 | quadratic
+N^3 | cubic
+2^N | exponential
+### Theory of Algorithms
+Notations for classification:
+
+Notation | provides | use
+--- | --- | ---
+Tilde | leading term | approximate model
+Big Theta | asymptotic growth | classify
+Big O | <= Theta(N^2) | upper bound
+Big Omega | \>= Theta(N^2) | lower bound
+e.g. for 1-sum problem, we are asking if there is any 0's in the array.
+
+Upper and lower bounds are identical, each element must be checked regardless of the contents.
+ Hence notation is Theta(N) and Omega(N)
+### Memory
