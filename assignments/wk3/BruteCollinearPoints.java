@@ -1,58 +1,61 @@
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class BruteCollinearPoints {
-    private LineSegment[] lss;
-    private int number_lss = 0;
-
+    private ArrayList<LineSegment> lss = new ArrayList<>();
     public BruteCollinearPoints(Point[] points) {
-        assert points.length >= 4;
-        lss = new LineSegment[points.length];
-
+        if (points == null) throw new IllegalArgumentException();
+        for (int i = 0; i < points.length; i++) {
+            if (points[i] == null) throw new IllegalArgumentException();
+        }
+        for (int i = 0; i < points.length; i++) {
+            for (int j = i + 1; j < points.length; j++) {
+                if (points[i].compareTo(points[j]) == 0) throw new IllegalArgumentException();
+            }
+        }
+        // if (points.length < 4) return;
+        // With sorted array, we know that the first and fourth points will define the longest LineSegment
+        // out of the group of points looked over.
+        Arrays.sort(points);
+        Point pi, pj, pk, pf;
         // Find all line segments that connect 4 points
         for (int i = 0; i < points.length; i++) {
             for (int j = i + 1; j < points.length; j++) {
                 for (int k = j + 1; k < points.length; k++) {
-                    if (are3PointsColinear(p,q,r)) {
-                        for (int l = j + 1; l < points.length; l++) {
-                            if (are3PointsColinear(p, q, l)) appendLargestSegment({ p, q, r, s })
+                    pi = points[i];
+                    pj = points[j];
+                    pk = points[k];
+                    if (are3PointsColinear(pi, pj, pk)) {
+                        for (int f = k + 1; f < points.length; f++) {
+                            pf = points[f];
+                            if (are3PointsColinear(pi, pj, pf)) lss.add(new LineSegment(pi, pf));
                         }
                     }
                 }
             }
         }
     }
-    private void appendLargestSegment(Point[] points) {
-        Point pmin, pmax;
-        Arrays.sort(points);
-        pmin = points[0];
-        pmax = points[3];
-        lss[number_lss++] = new LineSegment(pmin, pmax);
-    }
-    private boolean are3PointsColinear(Point p, Point q, Point  r) {
-        assert points.length == 3;
-        Point pp = points[0];
-        Point pq = points[1];
-        Point pr = points[2];
-        Point ps = points[3];
-        if (pp.slopeTo(pr) == pp.slopeTo(pq)
-                && pp.slopeTo(pr) == pp.slopeTo(ps)) return true;
-        else return false;
 
+    private boolean are3PointsColinear(Point pi, Point pj, Point  pk) {
+        return (pi.slopeTo(pj) == pi.slopeTo(pk));
     }
+
     public int numberOfSegments() {
-        return 0;
+        return lss.size();
     }
-    // public LineSegment[] segments() {
-    //     return [];
-    // }
+
+    public LineSegment[] segments() {
+        // Move values from ArrayList to an array
+        return lss.toArray(new LineSegment[0]);
+    }
+
     public static void main(String[] args) {
         // In in = new In(args[0]);
-        In in = new In("input6.txt");
+        In in = new In("input1.txt");
         int x, y, n = in.readInt();
 
         Point[] points = new Point[n];
@@ -61,10 +64,21 @@ public class BruteCollinearPoints {
             y = in.readInt();
             points[i] = new Point(x, y);
         }
+        // draw the points
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        for (Point p : points) {
+            p.draw();
+        }
+        StdDraw.show();
+
         BruteCollinearPoints bcp = new BruteCollinearPoints(points);
         StdOut.println(bcp.numberOfSegments());
-        // for (LineSegment ls : bcp.segments()) {
-        //     StdOut.print("Line segment: " + ls.toString());
-        // }
+        for (LineSegment ls : bcp.segments()) {
+            StdOut.println("Line segment: " + ls.toString());
+            ls.draw();
+        }
+        StdDraw.show();
     }
 }
