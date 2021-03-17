@@ -6,18 +6,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BruteCollinearPoints {
-    private ArrayList<LineSegment> lss = new ArrayList<>();
-    public BruteCollinearPoints(Point[] points) {
-        if (points == null) throw new IllegalArgumentException();
-        for (int i = 0; i < points.length; i++) {
-            if (points[i] == null) throw new IllegalArgumentException();
+
+    private final ArrayList<LineSegment> lss = new ArrayList<>();
+
+    public BruteCollinearPoints(Point[] pointsInput) {
+        if (pointsInput == null) throw new IllegalArgumentException();
+        for (int i = 0; i < pointsInput.length; i++) {
+            if (pointsInput[i] == null) throw new IllegalArgumentException();
         }
-        for (int i = 0; i < points.length; i++) {
-            for (int j = i + 1; j < points.length; j++) {
-                if (points[i].compareTo(points[j]) == 0) throw new IllegalArgumentException();
+        for (int i = 0; i < pointsInput.length; i++) {
+            for (int j = i + 1; j < pointsInput.length; j++) {
+                if (pointsInput[i].compareTo(pointsInput[j]) == 0) throw new IllegalArgumentException();
             }
         }
-        // if (points.length < 4) return;
+        Point[] points = pointsInput.clone();  // Don't mutate the client input!
         // With sorted array, we know that the first and fourth points will define the longest LineSegment
         // out of the group of points looked over.
         Arrays.sort(points);
@@ -55,7 +57,7 @@ public class BruteCollinearPoints {
 
     public static void main(String[] args) {
         // In in = new In(args[0]);
-        In in = new In("input1.txt");
+        In in = new In("input8.txt");
         int x, y, n = in.readInt();
 
         Point[] points = new Point[n];
@@ -71,7 +73,6 @@ public class BruteCollinearPoints {
         for (Point p : points) {
             p.draw();
         }
-        StdDraw.show();
 
         BruteCollinearPoints bcp = new BruteCollinearPoints(points);
         StdOut.println(bcp.numberOfSegments());

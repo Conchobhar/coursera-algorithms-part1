@@ -73,8 +73,24 @@ A `total order` is a binary relation <= that satisfies
 - transitivity - if v <= w and w <= x then v <= x
 - totality - either v<=w or w<=v or both
 
-"Rock-paper-scissors" is an example of something without that is not a total order
+"Rock-paper-scissors" is an example of something without that is not a total order.
 
+A sort is said to be stable if after sorting by 2 or more comparators, the earlier sorts
+retain their order when the later sorts have equal precedence:
+```
+Initial state:
+C,2
+B,2
+A,1
+
+After sorting by first column:
+A,1
+B,2
+C,2
+
+After sorting by second column, for a stable sort the result is the same. 
+The B --> C precedence is maintained.
+```
 ## Type Primitives
 Primitives like `int` are not classes and cannot implement an interface, so an `int[]` cannot be passed to something
 that expects `Comparable[]` and you must instead used `Integer[]`.
