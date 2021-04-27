@@ -13,4 +13,4 @@ $ zip upload_name.zip source1.java source2.java ...
 ```
 
 ### Win10
-tar.exe -a -c -f collinear.zip BruteCollinearPoints.java FastCollinearPoints.java Point.java
+tar.exe -a -c -f 8puzzle.zip Board.java Solver.java
